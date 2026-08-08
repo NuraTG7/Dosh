@@ -1,10 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { 
   TrendingUp, 
-  ShieldCheck, 
   Award, 
-  ChevronRight,
-  Bookmark,
   ArrowLeft,
   ArrowDownCircle,
   Activity,
