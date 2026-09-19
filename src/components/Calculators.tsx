@@ -991,7 +991,7 @@ function SWPCalculator() {
                 fontSize: '13px',
                 fontWeight: 500
               }}>
-                ✨ Sustainable Plan. Your corpus will retain a positive balance of <strong>{formatCurrency(finalBalance)}</strong> at the end of {years} years.
+                ✅ Sustainable Plan. Your corpus will retain a positive balance of <strong>{formatCurrency(finalBalance)}</strong> at the end of {years} years.
               </div>
             )}
             

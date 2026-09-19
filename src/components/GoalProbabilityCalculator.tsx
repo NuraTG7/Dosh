@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import {
+  Trophy,
   Target,
   TrendingUp,
-  Sparkles,
   AlertTriangle,
   CheckCircle2,
   Info,
@@ -442,6 +442,7 @@ function WhatIfSimulator({
       });
       onResult(result);
       setIsRunning(false);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }, [wipSIP, wipReturn, wipYears, params, onResult]);
 
@@ -534,7 +535,7 @@ const GOAL_PRESETS = [
   { name: 'Education', icon: '🎓', target: 3000000, years: 8 },
   { name: "Child's Education", icon: '👶', target: 5000000, years: 15 },
   { name: 'Car', icon: '🚗', target: 1500000, years: 5 },
-  { name: 'Custom', icon: '✨', target: 10000000, years: 10 },
+  { name: 'Custom', icon: '🎯', target: 10000000, years: 10 },
 ];
 
 export default function GoalProbabilityCalculator() {
@@ -604,7 +605,7 @@ export default function GoalProbabilityCalculator() {
       {/* Header */}
       <div className="calculator-header">
         <h3 className="royal-title" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <Sparkles size={28} color="var(--gold-dark)" />
+          <Trophy size={28} color="var(--gold-dark)" />
           Goal Achievement Probability
         </h3>
         <p>Run Monte Carlo simulations to estimate the likelihood of reaching your financial goals. Adjust parameters and explore "What-If" scenarios.</p>
@@ -700,7 +701,7 @@ export default function GoalProbabilityCalculator() {
         <div className="gp-results-col">
           {!result && !isCalculating && (
             <div className="gp-empty-state">
-              <Sparkles size={48} color="#ECEAE4" />
+              <Trophy size={48} color="#ECEAE4" />
               <h4>Configure & Calculate</h4>
               <p>Set your goal parameters on the left and hit Calculate to run Monte Carlo simulations.</p>
             </div>
@@ -792,7 +793,7 @@ export default function GoalProbabilityCalculator() {
               <ul className="gp-reco-list">
                 {result.recommendations.map((r, i) => (
                   <li key={i}>
-                    <Sparkles size={12} color="var(--gold-dark)" />
+                    <Trophy size={12} color="var(--gold-dark)" />
                     <span>{r}</span>
                   </li>
                 ))}

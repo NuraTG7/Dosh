@@ -12,7 +12,7 @@ import {
   Flame,
   PieChart,
   Target,
-  Sparkles,
+  Trophy,
   Brain,
   Clock,
   Shield
@@ -79,10 +79,51 @@ const getRouteFromPath = (): RouteState => {
 function App() {
   const [route, setRoute] = useState<RouteState>(getRouteFromPath());
   const currentRouteRef = useRef<RouteState>(route);
+  const [activeNav, setActiveNav] = useState<string>('journey');
 
   useEffect(() => {
     currentRouteRef.current = route;
   }, [route]);
+
+  useEffect(() => {
+    if (route.view !== 'home') {
+      if (route.view === 'time-to-1-crore' || route.view === 'goal-probability') setActiveNav('insights');
+      else if (route.view === 'strategies-single') setActiveNav('strategies');
+      else if (route.view === 'calculator-single') setActiveNav('calculators');
+      return;
+    }
+    
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          if (entry.target.classList.contains('hero-section')) {
+            setActiveNav('journey');
+          } else if (id === 'calculators-suite-section') {
+            setActiveNav('calculators');
+          } else if (id === 'strategies-portfolio-section') {
+            setActiveNav('strategies');
+          } else if (id === 'insights-intelligence-section') {
+            setActiveNav('insights');
+          }
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, { threshold: 0.3 });
+
+    const hero = document.querySelector('.hero-section');
+    const calc = document.getElementById('calculators-suite-section');
+    const strat = document.getElementById('strategies-portfolio-section');
+    const insights = document.getElementById('insights-intelligence-section');
+
+    if (hero) observer.observe(hero);
+    if (calc) observer.observe(calc);
+    if (strat) observer.observe(strat);
+    if (insights) observer.observe(insights);
+
+    return () => observer.disconnect();
+  }, [route.view]);
 
   const restoreScrollForRoute = (targetRoute: RouteState, isPopState: boolean) => {
     const key = getRouteKey(targetRoute);
@@ -169,8 +210,12 @@ function App() {
         <ul className="nav-links">
           <li>
             <button 
-              onClick={() => navigateTo('home')} 
-              className={`nav-link-btn ${view === 'home' ? 'active' : ''}`}
+              onClick={() => {
+                setActiveNav('journey');
+                navigateTo('home');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }} 
+              className={`nav-link-btn ${activeNav === 'journey' ? 'active' : ''}`}
             >
               Journey
             </button>
@@ -178,6 +223,7 @@ function App() {
           <li>
             <button 
               onClick={() => {
+                setActiveNav('calculators');
                 if (view !== 'home') {
                   navigateTo('home');
                   setTimeout(() => {
@@ -187,7 +233,7 @@ function App() {
                   document.getElementById('calculators-suite-section')?.scrollIntoView({ behavior: 'smooth' });
                 }
               }} 
-              className="nav-link-btn"
+              className={`nav-link-btn ${activeNav === 'calculators' ? 'active' : ''}`}
             >
               Calculators
             </button>
@@ -195,6 +241,7 @@ function App() {
           <li>
             <button 
               onClick={() => {
+                setActiveNav('strategies');
                 if (view !== 'home') {
                   navigateTo('home');
                   setTimeout(() => {
@@ -204,7 +251,7 @@ function App() {
                   document.getElementById('strategies-portfolio-section')?.scrollIntoView({ behavior: 'smooth' });
                 }
               }} 
-              className="nav-link-btn"
+              className={`nav-link-btn ${activeNav === 'strategies' ? 'active' : ''}`}
             >
               Strategies
             </button>
@@ -212,6 +259,7 @@ function App() {
           <li>
             <button 
               onClick={() => {
+                setActiveNav('insights');
                 if (view !== 'home') {
                   navigateTo('home');
                   setTimeout(() => {
@@ -221,7 +269,7 @@ function App() {
                   document.getElementById('insights-intelligence-section')?.scrollIntoView({ behavior: 'smooth' });
                 }
               }} 
-              className="nav-link-btn"
+              className={`nav-link-btn ${activeNav === 'insights' ? 'active' : ''}`}
             >
               Insights
             </button>
@@ -572,7 +620,7 @@ function App() {
               {/* Card 4: Goal Achievement Probability (ACTIVE) */}
               <div className="pillar-card" style={{ backgroundColor: '#FFFFFF', border: '1.5px solid var(--border-gold-strong)', position: 'relative' }}>
                 <div className="pillar-icon-box" style={{ background: 'var(--gold-light)', marginTop: '10px' }}>
-                  <Sparkles size={24} color="var(--gold-dark)" />
+                  <Trophy size={24} color="var(--gold-dark)" />
                 </div>
                 <h4>Goal Probability</h4>
                 <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '25px' }}>

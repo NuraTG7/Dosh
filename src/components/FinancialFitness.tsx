@@ -1427,6 +1427,28 @@ export default function FinancialFitness() {
   });
 
   const [activeTab, setActiveTab] = useState<'know' | 'score' | 'improve'>('know');
+  const scrollPositions = useRef<Record<string, number>>({});
+
+  const handleTabChange = (newTab: 'know' | 'score' | 'improve', direction: 'forward' | 'backward' | 'any' = 'any') => {
+    // Save current tab scroll position
+    scrollPositions.current[activeTab] = window.scrollY;
+    
+    // Set new tab
+    setActiveTab(newTab);
+    
+    // Defer the scroll restore/reset until after render
+    setTimeout(() => {
+      if (direction === 'forward') {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      } else if (direction === 'backward') {
+        const savedPos = scrollPositions.current[newTab] || 0;
+        window.scrollTo({ top: savedPos, behavior: 'instant' });
+      } else {
+        const savedPos = scrollPositions.current[newTab] || 0;
+        window.scrollTo({ top: savedPos, behavior: 'instant' });
+      }
+    }, 0);
+  };
 
   // --- Data States ---
   const [personal, setPersonal] = useState<PersonalDetails>({
@@ -1584,7 +1606,7 @@ export default function FinancialFitness() {
     setInvestment({ monthlyAllocated: 5000, portfolioDiversified: 'none', currentValue: 100000 });
     setEmi({ assetEMI: 0, liabilityEMI: 0 });
     setMindset({ satisfaction: 3, discipline: 3, futurePlanning: 3, riskTolerance: 3, financialLiteracy: 3 });
-    setActiveTab('know');
+    handleTabChange('know', 'forward');
   };
 
   const canProceedToScore = () => {
@@ -1601,7 +1623,7 @@ export default function FinancialFitness() {
         {/* Step 1: Know Me */}
         <button 
           className={`ff-segment ${activeTab === 'know' ? 'active' : ''} ${activeTab === 'score' || activeTab === 'improve' ? 'completed' : ''}`} 
-          onClick={() => setActiveTab('know')}
+          onClick={() => handleTabChange('know')}
         >
           <User size={16} /> KNOW ME
         </button>
@@ -1611,7 +1633,7 @@ export default function FinancialFitness() {
           className={`ff-segment ${activeTab === 'score' ? 'active' : ''} ${activeTab === 'improve' ? 'completed' : ''}`} 
           onClick={() => {
             if (canProceedToScore()) {
-              setActiveTab('score');
+              handleTabChange('score');
             } else {
               alert('Please fill in your Age, at least one Monthly Income, and basic Needs Expenses to proceed.');
             }
@@ -1626,7 +1648,7 @@ export default function FinancialFitness() {
           className={`ff-segment ${activeTab === 'improve' ? 'active' : ''}`} 
           onClick={() => {
             if (canProceedToScore()) {
-              setActiveTab('improve');
+              handleTabChange('improve');
             } else {
               alert('Please fill in your Age, at least one Monthly Income, and basic Needs Expenses to proceed.');
             }
@@ -2044,7 +2066,7 @@ export default function FinancialFitness() {
               className={`btn-gold ${!canProceedToScore() ? 'disabled' : ''}`} 
               onClick={() => {
                 if (canProceedToScore()) {
-                  setActiveTab('score');
+                  handleTabChange('score', 'forward');
                 } else {
                   alert('Please fill in your Age, at least one Monthly Income, and basic Needs Expenses to proceed.');
                 }
@@ -2091,10 +2113,10 @@ export default function FinancialFitness() {
           />
 
           <div className="ff-bottom-actions" style={{ marginTop: '40px' }}>
-            <button className="btn-gold" onClick={() => setActiveTab('improve')}>
+            <button className="btn-gold" onClick={() => handleTabChange('improve', 'forward')}>
               View Recommendations →
             </button>
-            <button className="btn-gold-outline" onClick={() => setActiveTab('know')}>
+            <button className="btn-gold-outline" onClick={() => handleTabChange('know', 'backward')}>
               ← Edit Details
             </button>
           </div>
@@ -2221,10 +2243,10 @@ export default function FinancialFitness() {
           </div>
 
           <div className="ff-bottom-actions">
-            <button className="btn-gold-outline" onClick={() => setActiveTab('know')}>
+            <button className="btn-gold-outline" onClick={() => handleTabChange('know', 'backward')}>
               ← Edit Details
             </button>
-            <button className="btn-gold-outline" onClick={() => setActiveTab('score')}>
+            <button className="btn-gold-outline" onClick={() => handleTabChange('score', 'backward')}>
               View Score
             </button>
           </div>

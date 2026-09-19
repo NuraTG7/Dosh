@@ -992,7 +992,7 @@ function DebtRepaymentStrategy() {
   const [prepaymentMode, setPrepaymentMode] = useState<'tenure' | 'emi'>('tenure');
 
   // Table options
-  const [showScheduleTable, setShowScheduleTable] = useState(false);
+  const [showScheduleTable, setShowScheduleTable] = useState(true);
   const [scheduleType, setScheduleType] = useState<'yearly' | 'monthly'>('yearly');
   const [scheduleScope, setScheduleScope] = useState<'original' | 'accelerated'>('original');
   const [showSingleResults, setShowSingleResults] = useState(false);
@@ -1620,7 +1620,7 @@ function DebtRepaymentStrategy() {
                     Extra payments directly reduce the principal balance. The monthly installment remains standard, forcing the payoff timeline to collapse.
                   </p>
                   <div style={{ fontSize: '11px', color: prepaymentMode === 'tenure' ? '#2E7D32' : 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', marginTop: 'auto' }}>
-                    ðŸŽ¯ Ideal for maximum interest savings
+                    🎯 Ideal for maximum interest savings
                   </div>
                 </div>
 
@@ -1667,7 +1667,7 @@ function DebtRepaymentStrategy() {
                     Extra payments reduce principal balance, triggering the bank to recalculate a smaller monthly standard EMI. Payoff timeline remains constant.
                   </p>
                   <div style={{ fontSize: '11px', color: prepaymentMode === 'emi' ? '#2E7D32' : 'var(--text-muted)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px', marginTop: 'auto' }}>
-                    ðŸŽ¯ Ideal for releasing monthly liquidity
+                    🎯 Ideal for releasing monthly liquidity
                   </div>
                 </div>
               </div>
@@ -1711,7 +1711,7 @@ function DebtRepaymentStrategy() {
                 <div style={{ background: '#FFFFFF', border: '1px solid var(--border-light)', borderRadius: '12px', padding: '24px', boxShadow: 'var(--shadow-subtle)' }}>
                   <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>BASELINE</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '12px 0 6px 0', color: 'var(--text-primary)', fontWeight: 600, fontSize: '15px' }}>
-                    ðŸ“… {formatTenureText(singleLoan.origMonths)}
+                    📅 {formatTenureText(singleLoan.origMonths)}
                   </div>
                   <div style={{ fontSize: '26px', fontWeight: 800, color: '#C62828', fontFamily: 'Montserrat, sans-serif' }}>
                     {formatCurrency(singleLoan.totalIntOrig)}
@@ -1723,7 +1723,7 @@ function DebtRepaymentStrategy() {
                 <div style={{ background: 'var(--gold-light)', border: '1.5px solid var(--gold-primary)', borderRadius: '12px', padding: '24px', boxShadow: 'var(--shadow-medium)' }}>
                   <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--gold-dark)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>REVISED PLAN</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '12px 0 6px 0', color: 'var(--gold-dark)', fontWeight: 700, fontSize: '15px' }}>
-                    ðŸ“… {formatTenureText(singleLoan.accMonths)}
+                    📅 {formatTenureText(singleLoan.accMonths)}
                   </div>
                   <div style={{ fontSize: '26px', fontWeight: 800, color: '#2E7D32', fontFamily: 'Montserrat, sans-serif' }}>
                     {formatCurrency(singleLoan.totalIntAcc)}
@@ -2090,7 +2090,7 @@ function DebtRepaymentStrategy() {
               color: 'var(--success)',
               fontWeight: 500
             }}>
-              ðŸŽ¯ <strong>Avalanche Edge:</strong> By selecting the Avalanche method, you will save <strong>{formatCurrency(portfolioInterestSaved)}</strong> in interest fees and finish paying off debt <strong>{portfolioTimeSaved} months</strong> earlier!
+              🎯 <strong>Avalanche Edge:</strong> By selecting the Avalanche method, you will save <strong>{formatCurrency(portfolioInterestSaved)}</strong> in interest fees and finish paying off debt <strong>{portfolioTimeSaved} months</strong> earlier!
             </div>
           )}
 
